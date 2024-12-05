@@ -28,3 +28,35 @@ jobs:
 
     - name: Test
       run: ./my_program
+
+    - name: Zip the executable
+      run: zip setup.zip HelloWorld
+      
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: setup-zip
+        path: ./setup.zip
+
+    #- name: Run the tests
+    #  run: ./tests && echo "All tests passed!"
+  
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Download build artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: setup-zip
+    
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1  
+      env:
+        GITHUB_TOKEN: ${{ secrets.SUPERSECRET }}
+      with:
+        tag_name: v1.0.${{ github.run_number }}
+        name: "Release v1.0.${{ github.run_number }}"
+        draft: false
+        prerelease: false
