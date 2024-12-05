@@ -30,8 +30,8 @@ jobs:
       run: ./my_program
 
     - name: Zip the executable
-      run: zip setup.zip HelloWorld
-      
+      run: zip setup.zip my_program
+
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
@@ -40,19 +40,19 @@ jobs:
 
     #- name: Run the tests
     #  run: ./tests && echo "All tests passed!"
-  
+
   release:
     needs: build
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Download build artifact
       uses: actions/download-artifact@v3
       with:
         name: setup-zip
-    
+
     - name: Create GitHub Release
-      uses: softprops/action-gh-release@v1  
+      uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.SUPERSECRET }}
       with:
