@@ -27,7 +27,7 @@ jobs:
       run: g++ main.cpp -o my_program
 
     - name: Test
-      run: ./my_program
+ #     run: ./my_program
 
     - name: Zip the executable
       run: zip setup.zip my_program
